@@ -22,13 +22,13 @@ public class BookingRepository {
         jdbcCLient.sql("""
                 insert into booking
                 (
-                    room_id, room_name, room_type, qty,
+                    room_id, room_name, room_type, 
                     created_by_id, created_by, created_at,
                     last_updated_by_id, last_updated_by, last_updated_at
                 )
                 values
                 (
-                    :roomId, :roomName, :roomType, :qty,
+                    :roomId, :roomName, :roomType,
                     :createdById, :createdBy, now(),
                     :lastUpdatedById, :lastUpdatedBy, now()
                 )

@@ -18,7 +18,7 @@ public class SequenceDto {
     private String format;
     private Integer currentNumber;
     private Integer startNo;
-    private SequenceResetCondition sequenceResetCondition;
+    private SequenceResetCondition resetCondition;
     private UUID createdById;
     private String createdBy;
     private LocalDateTime createdAt;
@@ -36,7 +36,7 @@ public class SequenceDto {
                 .setFormat(sequence.format())
                 .setCurrentNumber(sequence.current_number())
                 .setStartNo(sequence.start_no())
-                .setSequenceResetCondition(sequence.reset_condition())
+                .setResetCondition(sequence.reset_condition())
                 .setCreatedById(sequence.created_by_id())
                 .setCreatedBy(sequence.created_by())
                 .setCreatedAt(sequence.created_at())
