@@ -1,8 +1,9 @@
-package com.example.booking_system.location.model;
+package com.example.booking_system.location.model.location;
 
 public class LocationEnum {
 
     public enum RoomType {
+        BUILDING("BUILDING"),
         FLOOR("FLOOR"),
         ROOM("ROOM");
 

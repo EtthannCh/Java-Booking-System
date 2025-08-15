@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.LocationEnum.RoomType;
+import com.example.booking_system.location.model.location.LocationEnum.RoomType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -26,6 +26,7 @@ public class BookingCrudDto {
         if (bCrudDto == null)
             return null;
 
-        return new Booking(null, roomId, roomName, roomType, bookingNo, null, header.getUserName(), header.getUserId());
+        return new Booking(null, roomId, roomName, roomType, bookingNo, null, header.getUserName(), header.getUserId(),
+                null, header.getUserName(), header.getUserId());
     }
 }

@@ -1,11 +1,11 @@
-package com.example.booking_system.location.model;
+package com.example.booking_system.location.model.location;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
-import com.example.booking_system.location.model.LocationEnum.RoomType;
+import com.example.booking_system.location.model.location.LocationEnum.RoomType;
 
 public record Location(
         @Id Long id,
