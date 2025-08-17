@@ -22,24 +22,26 @@ public class BookingRepository {
         jdbcCLient.sql("""
                 insert into booking
                 (
-                    room_id, room_name, room_type, 
-                    created_by_id, created_by, created_at,
-                    last_updated_by_id, last_updated_by, last_updated_at
+                    user_id, event_id, status, booking_no, qty,
+                    created_at, created_by, created_by_id,
+                    last_updated_at, last_updated_by, last_updated_by_id
                 )
                 values
                 (
-                    :roomId, :roomName, :roomType,
-                    :createdById, :createdBy, now(),
-                    :lastUpdatedById, :lastUpdatedBy, now()
+                    :userId, :eventId, :status, :bookingNo, :qty,
+                    now(), :createdBy, :createdById,
+                    now(), :lastUpdatedBy, :lastUpdatedById
                 )
                 """)
-                .param("roomId", booking.room_id())
-                .param("roomName", booking.room_name())
-                .param("roomType", booking.room_type(), Types.VARCHAR)
+                .param("userId", booking.user_id())
+                .param("eventId", booking.event_id())
+                .param("status", booking.status(), Types.VARCHAR)
+                .param("bookingNo", booking.booking_no())
+                .param("qty", booking.qty())
                 .param("createdBy", booking.created_by())
                 .param("createdById", booking.created_by_id())
-                .param("lastUpdatedBy", booking.created_by())
-                .param("lastUpdatedById", booking.created_by_id())
+                .param("lastUpdatedBy", booking.last_updated_by())
+                .param("lastUpdatedById", booking.last_updated_by_id())
                 .update(keyHolder, "id");
         var id = keyHolder.getKey();
         return id.longValue();

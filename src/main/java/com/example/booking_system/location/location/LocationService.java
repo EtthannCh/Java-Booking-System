@@ -1,11 +1,11 @@
-package com.example.booking_system.location;
+package com.example.booking_system.location.location;
 
 import java.util.Optional;
 
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.location.LocationCrudDto;
-import com.example.booking_system.location.model.location.LocationDto;
-import com.example.booking_system.location.model.location.LocationEnum.RoomType;
+import com.example.booking_system.location.location.model.LocationCrudDto;
+import com.example.booking_system.location.location.model.LocationDto;
+import com.example.booking_system.location.location.model.LocationEnum.RoomType;
 
 public interface LocationService {
 

@@ -1,14 +1,17 @@
-package com.example.booking_system.location;
+package com.example.booking_system.location.location;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.example.booking_system.exception.BusinessException;
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.location.LocationCrudDto;
-import com.example.booking_system.location.model.location.LocationDto;
-import com.example.booking_system.location.model.location.LocationEnum.RoomType;
+import com.example.booking_system.location.location.model.LocationCrudDto;
+import com.example.booking_system.location.location.model.LocationDto;
+import com.example.booking_system.location.location.model.LocationEnum.RoomType;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -21,15 +24,11 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Long createLocation(LocationCrudDto locCrud, HeaderCollections header) throws Exception {
-        if (locCrud.getRoomType().equals(RoomType.FLOOR)) {
-            locationRepository.checkPartOfIsSuitable(locCrud.getPartOf(), RoomType.BUILDING)
-                    .orElseThrow(() -> new BusinessException("BOK_LOCATION_PARTOFNOTBUILDING"));
-        } else if (locCrud.getRoomType().equals(RoomType.ROOM)) {
-            locationRepository.checkPartOfIsSuitable(locCrud.getPartOf(), RoomType.FLOOR)
-                    .orElseThrow(() -> new BusinessException("BOK_LOCATION_PARTOFNOTFLOOR"));
+        try {
+            return locationRepository.create(locCrud.toRecord(locCrud, header));
+        } catch (DuplicateKeyException e) {
+            throw new BusinessException(e.getMessage());
         }
-
-        return locationRepository.create(locCrud.toRecord(locCrud, header));
     }
 
     @Override

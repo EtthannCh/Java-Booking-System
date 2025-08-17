@@ -1,4 +1,4 @@
-package com.example.booking_system.location;
+package com.example.booking_system.location.location;
 
 import java.sql.Types;
 import java.util.Optional;
@@ -8,10 +8,10 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.example.booking_system.location.model.location.Location;
-import com.example.booking_system.location.model.location.LocationDto;
-import com.example.booking_system.location.model.location.LocationEnum.RoomType;
-import com.example.booking_system.location.model.seat_history.SeatHistory;
+import com.example.booking_system.location.location.model.Location;
+import com.example.booking_system.location.location.model.LocationDto;
+import com.example.booking_system.location.location.model.LocationEnum.RoomType;
+import com.example.booking_system.location.seat_history.model.seat_history.SeatHistory;
 
 @Repository
 public class LocationRepository {
@@ -26,18 +26,21 @@ public class LocationRepository {
         jdbcClient.sql("""
                 insert into location
                 (
-                    name, room_type, part_of ,created_by_id, created_by, created_at,
+                    name, room_type, part_of,section,row,col ,created_by_id, created_by, created_at,
                     last_updated_by_id, last_updated_by, last_updated_at
                 )
                 values
                 (
-                    :name, :roomType, :partOf ,:createdById, :createdBy, now(),
+                    :name, :roomType, :partOf, :section, :row, :col ,:createdById, :createdBy, now(),
                     :lastUpdatedById, :lastUpdatedBy, now()
                 )
                 """)
                 .param("name", location.name().toUpperCase())
                 .param("roomType", location.roomType(), Types.VARCHAR)
                 .param("partOf", location.part_of())
+                .param("section", location.section())
+                .param("row", location.row())
+                .param("col", location.col())
                 .param("createdById", location.created_by_id())
                 .param("createdBy", location.created_by())
                 .param("lastUpdatedById", location.last_updated_by_id())
@@ -80,7 +83,7 @@ public class LocationRepository {
                 values
                 (
                     :code, :status, :createdById, :createdBy, now(),
-                     :lastUpdatedById, :lastUpdatedBy, now()
+                    :lastUpdatedById, :lastUpdatedBy, now()
                 )
                 returning code;
                 """)

@@ -5,14 +5,15 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
-import com.example.booking_system.location.model.location.LocationEnum.RoomType;
+import com.example.booking_system.booking.model.BookingEnum.BookingStatus;
 
 public record Booking(
         @Id Long id,
-        Long room_id,
-        String room_name,
-        RoomType room_type,
+        UUID user_id,
+        Long event_id,
+        BookingStatus status,
         String booking_no,
+        Double qty,
         LocalDateTime created__at,
         String created_by,
         UUID created_by_id,

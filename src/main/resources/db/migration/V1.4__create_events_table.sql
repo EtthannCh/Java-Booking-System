@@ -1,8 +1,10 @@
-create table if NOT EXISTS booking( 
-    id serial4 PRIMARY KEY,
-    room_id int4 not null,
-    room_name varchar(250) not null,
-    room_type varchar(10) not null,
+create table if not EXISTS events(
+    id serial PRIMARY KEY,
+    name VARCHAR(250) not NULL UNIQUE,
+    description text,
+    period_start TIMESTAMPtz not null,
+    period_end TIMESTAMPtz not null,
+    active boolean default true,
     created_at TIMESTAMPtz not null,
     created_by VARCHAR(250) not null,
     created_by_id UUID not null,

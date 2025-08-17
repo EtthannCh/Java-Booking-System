@@ -1,7 +1,7 @@
-package com.example.booking_system.location.model.seat_history;
+package com.example.booking_system.location.seat_history.model.seat_history;
 
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.seat_history.SeatHistoryEnum.SeatHistoryStatus;
+import com.example.booking_system.location.seat_history.model.seat_history.SeatHistoryEnum.SeatHistoryStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;

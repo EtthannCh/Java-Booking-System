@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.location.LocationCrudDto;
+import com.example.booking_system.location.location.LocationService;
+import com.example.booking_system.location.location.model.LocationCrudDto;
 
 import java.util.UUID;
 
