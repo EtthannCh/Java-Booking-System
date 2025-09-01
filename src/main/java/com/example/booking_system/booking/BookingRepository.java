@@ -8,6 +8,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.booking_system.booking.model.Booking;
+import com.example.booking_system.booking.model.BookingEnum.BookingStatus;
 
 @Repository
 public class BookingRepository {
@@ -35,7 +36,7 @@ public class BookingRepository {
                 """)
                 .param("userId", booking.user_id())
                 .param("eventId", booking.event_id())
-                .param("status", booking.status(), Types.VARCHAR)
+                .param("status", BookingStatus.DRAFT, Types.VARCHAR)
                 .param("bookingNo", booking.booking_no())
                 .param("qty", booking.qty())
                 .param("createdBy", booking.created_by())

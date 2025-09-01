@@ -1,6 +1,8 @@
 create table if not EXISTS events(
     id serial PRIMARY KEY,
     name VARCHAR(250) not NULL UNIQUE,
+    location_id int4 not null,
+    location_name VARCHAR(250) not null,
     description text,
     period_start TIMESTAMPtz not null,
     period_end TIMESTAMPtz not null,

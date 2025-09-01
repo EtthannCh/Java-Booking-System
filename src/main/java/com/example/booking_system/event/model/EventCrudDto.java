@@ -18,7 +18,8 @@ public class EventCrudDto {
     private LocalDateTime periodEnd;
 
     public Event toRecord(HeaderCollections header) {
-        return new Event(null, name, description, periodEnd, periodEnd, header.getUserId(), header.getUserName(), null,
+        return new Event(null, name, header.getLocationId(), header.getLocationName(), description, periodEnd,
+                periodEnd, header.getUserId(), header.getUserName(), null,
                 header.getUserId(), header.getUserName(), null);
     }
 }

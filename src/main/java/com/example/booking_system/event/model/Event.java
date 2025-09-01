@@ -8,6 +8,8 @@ import org.springframework.data.annotation.Id;
 public record Event(
     @Id Long id,
     String name,
+    Long location_id,
+    String location_name,
     String description,
     LocalDateTime period_start,
     LocalDateTime period_end,

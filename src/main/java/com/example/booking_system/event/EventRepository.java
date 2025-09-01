@@ -23,19 +23,21 @@ public class EventRepository {
         jdbcClient.sql("""
                 insert into events
                 (
-                    name, description, period_start, period_end,
+                    name, description, location_id, location_name ,period_start, period_end,
                     created_at, created_by, created_by_id,
                     last_updated_at, last_updated_by, last_updated_by_id
                 )
                 values
                 (
-                    :name, :description, :periodStart, :periodEnd,
+                    :name, :description, :locationId, :locationName ,:periodStart, :periodEnd,
                     now(), :createdBy, :createdById,
                     now(), :lastUpdatedBy, :lastUpdatedById
                 )
                 """)
                 .param("name", event.name() != null || !event.name().equals("") ? event.name().toUpperCase() : "")
                 .param("description", event.description())
+                .param("locationId", event.location_id())
+                .param("locationName", event.location_name())
                 .param("periodStart", event.period_start())
                 .param("periodEnd", event.period_end())
                 .param("createdBy", event.created_by())

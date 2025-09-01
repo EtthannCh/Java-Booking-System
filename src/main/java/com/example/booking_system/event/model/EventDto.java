@@ -14,6 +14,8 @@ import lombok.experimental.Accessors;
 public class EventDto {
     private Long id;
     private String name;
+    private Long locationId;
+    private String locationName;
     private String description;
     private LocalDateTime periodStart;
     private LocalDateTime periodEnd;

@@ -35,7 +35,7 @@ public class SequenceServiceImpl implements SequenceService {
     }
 
     @Override
-    public String generateSequenceNo(String sequenceName, HeaderCollections header) throws Exception {
+    public String generateSequenceNo(String sequenceName, HeaderCollections header) throws BusinessException {
         SequenceDto seq = sequenceRepository.findSequenceBySequenceName(sequenceName)
                 .orElseThrow(() -> new BusinessException("BOK_SEQUENCE_SEQUENCENOTFOUND"));
         String format = seq.getFormat().replace("{", "").replace("}", "");

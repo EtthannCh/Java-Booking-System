@@ -62,7 +62,7 @@ public class SequenceRepository {
                 .optional();
     }
 
-    public void updateSequenceCurrentNumber(Long id, HeaderCollections header) throws Exception {
+    public void updateSequenceCurrentNumber(Long id, HeaderCollections header) throws BusinessException {
         int update = jdbcClient.sql("""
                 update sequence
                 set 
@@ -81,7 +81,7 @@ public class SequenceRepository {
         }
     }
 
-     public void resetCurrentNumber(Long id, HeaderCollections header) throws Exception {
+     public void resetCurrentNumber(Long id, HeaderCollections header) throws BusinessException {
         int update = jdbcClient.sql("""
                 update sequence
                 set 

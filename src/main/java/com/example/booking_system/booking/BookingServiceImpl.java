@@ -12,12 +12,11 @@ import com.example.booking_system.event.model.EventDto;
 import com.example.booking_system.exception.BusinessException;
 import com.example.booking_system.header.HeaderCollections;
 import com.example.booking_system.location.location.LocationService;
-import com.example.booking_system.location.location.model.LocationDto;
-import com.example.booking_system.location.location.model.LocationEnum.RoomType;
 import com.example.booking_system.location.seat_history.SeatHistoryService;
 import com.example.booking_system.location.seat_history.model.seat_history.SeatHistoryCrudDto;
 import com.example.booking_system.location.seat_history.model.seat_history.SeatHistoryDto;
 import com.example.booking_system.location.seat_history.model.seat_history.SeatHistoryEnum.SeatHistoryStatus;
+import com.example.booking_system.sequence.SequenceService;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -26,17 +25,20 @@ public class BookingServiceImpl implements BookingService {
     private final LocationService locationService;
     private final SeatHistoryService seatHistoryService;
     private final EventService eventService;
+    private final SequenceService sequenceService;
 
     public BookingServiceImpl(
             BookingRepository bookingRepository,
             LocationService locationService,
             SeatHistoryService seatHistoryService,
-            EventService eventService
+            EventService eventService,
+            SequenceService sequenceService
             ) {
         this.bookingRepository = bookingRepository;
         this.locationService = locationService;
         this.seatHistoryService = seatHistoryService;
         this.eventService = eventService;
+        this.sequenceService = sequenceService;
     }
 
     @Override
@@ -45,18 +47,21 @@ public class BookingServiceImpl implements BookingService {
         locationService.findLocationById(bookingCrudDto.getBookingDetailCrudDto().getSeatId())
                 .orElseThrow(() -> new BusinessException("BOK_BOOKING_LOCATIONNOTFOUND"));
 
+        String sequence = sequenceService.generateSequenceNo("BOOKING_SEQUENCE", header);
+
+        bookingCrudDto.setBookingNo(sequence);
         EventDto event = eventService.findEventById(bookingCrudDto.getEventId()).orElseThrow(() -> new BusinessException("BOK_BOOKINGS_EVENTNOTFOUND"));
-        if(event.getPeriodEnd().compareTo(LocalDateTime.now()) > 0)
-            throw new BusinessException("BOK_BOOKINGS_PERIODENDISGREATERTHANTODAY");
+        if(event.getPeriodEnd().compareTo(LocalDateTime.now()) < 0)
+            throw new BusinessException("BOK_BOOKINGS_EVENTEXPIRED");
         
-        Optional<SeatHistoryDto> seatHistory = seatHistoryService
-                .findSeatHistoryByLocationId(bookingCrudDto.getBookingDetailCrudDto().getSeatId());
-        if (seatHistory.isPresent() && !seatHistory.get().getStatus().equals(SeatHistoryStatus.UNOCCUPIED))
+        SeatHistoryDto seatHistory = seatHistoryService
+                .findSeatHistoryByLocationId(bookingCrudDto.getBookingDetailCrudDto().getSeatId()).orElseThrow(() -> new BusinessException("BOK_BOOKINGS_SEATNOTFOUND"));
+        if (!seatHistory.getStatus().equals(SeatHistoryStatus.UNOCCUPIED))
             throw new BusinessException("BOK_BOOKING_SEATISUNAVAILABLE");
 
         SeatHistoryCrudDto seatHistoryCrudDto = new SeatHistoryCrudDto()
-                .setCode(seatHistory.get().getCode())
-                .setLocationId(seatHistory.get().getLocationId())
+                .setCode(seatHistory.getCode())
+                .setLocationId(event.getLocationId())
                 .setStatus(SeatHistoryStatus.OCCUPIED);
         seatHistoryService.processReserveSeat(seatHistoryCrudDto, header);
 
