@@ -1,4 +1,4 @@
-package com.example.booking_system.location.model;
+package com.example.booking_system.location.location.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.LocationEnum.RoomType;
+import com.example.booking_system.location.location.model.LocationEnum.RoomType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -21,6 +21,9 @@ public class LocationDto {
     private String name;
     private RoomType roomType;
     private Long partOf;
+    private String section;
+    private String row;
+    private Long col;
     private UUID createdById;
     private String createdBy;
     private LocalDateTime createdAt;
@@ -37,6 +40,9 @@ public class LocationDto {
                 .setName(location.name())
                 .setRoomType(location.roomType())
                 .setPartOf(location.part_of())
+                .setSection(location.section())
+                .setRow(location.row())
+                .setCol(location.col())
                 .setCreatedById(location.created_by_id())
                 .setCreatedBy(location.created_by())
                 .setCreatedById(location.created_by_id())

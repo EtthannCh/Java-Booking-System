@@ -1,19 +1,17 @@
-package com.example.booking_system.booking.model;
+package com.example.booking_system.location.seat_history.model.seat_history;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 
-import com.example.booking_system.booking.model.BookingEnum.BookingStatus;
+import com.example.booking_system.location.seat_history.model.seat_history.SeatHistoryEnum.SeatHistoryStatus;
 
-public record Booking(
+public record SeatHistory(
         @Id Long id,
-        UUID user_id,
-        Long event_id,
-        BookingStatus status,
-        String booking_no,
-        Double qty,
+        String code,
+        SeatHistoryStatus status,
+        Long location_id,
         LocalDateTime created__at,
         String created_by,
         UUID created_by_id,

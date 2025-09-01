@@ -1,5 +1,7 @@
 server:
   port: 8080
+  servlet:
+    context-path: /bookings
 
 spring:
   datasource: 
@@ -12,3 +14,10 @@ spring:
         show-sql: true
   config:
     import: optional:file:.env[.properties]
+
+# Set the swagger ui after adding the dependency
+springdoc:
+  api-docs:
+    enabled: true 
+  swagger-ui:
+    enabled: true

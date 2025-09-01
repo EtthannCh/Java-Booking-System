@@ -1,10 +1,7 @@
 package com.example.booking_system.booking.model;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
+import com.example.booking_system.booking.model.BookingEnum.BookingStatus;
 import com.example.booking_system.header.HeaderCollections;
-import com.example.booking_system.location.model.LocationEnum.RoomType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -14,18 +11,17 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookingCrudDto {
-    private Long roomId;
-    private String roomName;
-    private RoomType roomType;
+    private Long eventId;
+    private BookingStatus status;
     private String bookingNo;
-    private UUID createdById;
-    private String createdBy;
-    private LocalDateTime createdAt;
+    private Double qty;
+    private BookingDetailCrudDto bookingDetailCrudDto;
 
     public Booking toRecord(BookingCrudDto bCrudDto, HeaderCollections header) {
         if (bCrudDto == null)
             return null;
 
-        return new Booking(null, roomId, roomName, roomType, bookingNo, null, header.getUserName(), header.getUserId());
+        return new Booking(null, header.getUserId(), eventId, status, bookingNo, qty, null, header.getUserName(),
+                header.getUserId(), null, header.getUserName(), header.getUserId());
     }
 }
