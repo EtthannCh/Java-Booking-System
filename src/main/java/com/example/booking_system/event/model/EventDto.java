@@ -1,6 +1,7 @@
 package com.example.booking_system.event.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,6 +20,8 @@ public class EventDto {
     private String description;
     private LocalDateTime periodStart;
     private LocalDateTime periodEnd;
+    private String duration;
+    private List<String> startTime;
     private LocalDateTime createdAt;
     private String createdBy;
     private UUID createdById;

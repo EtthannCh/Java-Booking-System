@@ -11,5 +11,5 @@ public interface SeatHistoryService {
     
     public Optional<SeatHistoryDto> findSeatHistoryByLocationId(Long locationId);
 
-    public String processReserveSeat(SeatHistoryCrudDto seatHistoryCrudDto, HeaderCollections header) throws BusinessException;
+    public Long processReserveSeat(SeatHistoryCrudDto seatHistoryCrudDto, HeaderCollections header) throws BusinessException;
 }

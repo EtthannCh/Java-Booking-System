@@ -30,7 +30,7 @@ public class SeatHistoryRepository {
                 .optional();
     }
 
-    public String processReserveSeat(SeatHistory seatHistory) {
+    public Long processReserveSeat(SeatHistory seatHistory) {
         return jdbcClient.sql("""
                 insert into seat_history
                 (
@@ -44,7 +44,7 @@ public class SeatHistoryRepository {
                     :createdById, :createdBy, now(),
                     :lastUpdatedById, :lastUpdatedBy, now()
                 )
-                returning code;
+                returning id;
                 """)
                 .param("code", seatHistory.code())
                 .param("status", seatHistory.status(), Types.VARCHAR)
@@ -53,6 +53,6 @@ public class SeatHistoryRepository {
                 .param("createdBy", seatHistory.created_by())
                 .param("lastUpdatedById", seatHistory.last_updated_by_id())
                 .param("lastUpdatedBy", seatHistory.last_updated_by())
-                .query(String.class).single();
+                .query(Long.class).single();
     }
 }

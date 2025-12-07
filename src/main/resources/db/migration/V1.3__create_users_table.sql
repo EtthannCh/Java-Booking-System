@@ -1,6 +1,6 @@
 CREATE Table if not EXISTS users(
     id serial4 PRIMARY KEY,
-    user_id uuid not null UNIQUE,
+    user_id uuid not null default gen_random_uuid() UNIQUE,
     email TEXT NOT NULL,
     name VARCHAR(250) not NULL,
     password_hash TEXT not NULL,

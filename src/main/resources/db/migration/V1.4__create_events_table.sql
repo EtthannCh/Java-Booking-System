@@ -5,7 +5,7 @@ create table if not EXISTS events(
     location_name VARCHAR(250) not null,
     description text,
     period_start TIMESTAMPtz not null,
-    period_end TIMESTAMPtz not null,
+    period_end TIMESTAMPtz,
     active boolean default true,
     created_at TIMESTAMPtz not null,
     created_by VARCHAR(250) not null,

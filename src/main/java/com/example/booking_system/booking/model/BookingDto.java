@@ -1,6 +1,7 @@
 package com.example.booking_system.booking.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import com.example.booking_system.booking.model.BookingEnum.BookingStatus;
@@ -18,6 +19,7 @@ public class BookingDto {
     private Long eventId;
     private BookingStatus status;
     private String bookingNo;
+    private LocalTime showTime;
     private Double qty;
     private LocalDateTime createdAt;
     private String createdBy;
@@ -36,11 +38,12 @@ public class BookingDto {
                 .setEventId(booking.event_id())
                 .setStatus(booking.status())
                 .setBookingNo(booking.booking_no())
+                .setShowTime(booking.show_time())
                 .setQty(booking.qty())
-                .setCreatedAt(booking.created__at())
+                .setCreatedAt(booking.created_at())
                 .setCreatedBy(booking.created_by())
                 .setCreatedById(booking.created_by_id())
-                .setLastUpdatedAt(booking.last_updated__at())
+                .setLastUpdatedAt(booking.last_updated_at())
                 .setLastUpdatedBy(booking.last_updated_by())
                 .setLastUpdatedById(booking.last_updated_by_id());
     }

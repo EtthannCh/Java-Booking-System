@@ -28,10 +28,16 @@ public class EventController {
     public Long createEvent(
             @RequestBody EventCrudDto eventCrudDto,
             @RequestHeader(HeaderConstants.USER_ID) UUID userId,
-            @RequestHeader(HeaderConstants.USER_NAME) String userName) throws BusinessException {
+            @RequestHeader(HeaderConstants.USER_NAME) String userName,
+            @RequestHeader(HeaderConstants.LOCATION_ID) Long locationId,
+            @RequestHeader(HeaderConstants.LOCATION_NAME) String locationName
+            ) throws BusinessException {
         HeaderCollections header = new HeaderCollections()
                 .setUserId(userId)
-                .setUserName(userName);
+                .setUserName(userName)
+                .setLocationId(locationId)
+                .setLocationName(locationName)
+                ;
         return eventService.createEvent(eventCrudDto, header);
     }
 

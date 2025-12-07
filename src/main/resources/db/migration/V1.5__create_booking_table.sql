@@ -4,6 +4,7 @@ create table if NOT EXISTS booking(
     event_id int4 not null,
     status varchar(50) not null,
     booking_no VARCHAR(250) not null,
+    show_time TIME not null,
     qty int4 not null DEFAULT 1,
     created_at TIMESTAMPtz not null,
     created_by VARCHAR(250) not null,

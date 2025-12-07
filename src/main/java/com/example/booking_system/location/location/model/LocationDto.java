@@ -24,6 +24,7 @@ public class LocationDto {
     private String section;
     private String row;
     private Long col;
+    private boolean active;
     private UUID createdById;
     private String createdBy;
     private LocalDateTime createdAt;

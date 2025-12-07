@@ -22,7 +22,7 @@ public class SeatHistoryServiceImpl implements SeatHistoryService{
         return seatHistoryRepository.findSeatHistoryById(locationId);
     }
 
-    public String processReserveSeat(SeatHistoryCrudDto seatHistoryCrudDto, HeaderCollections header){
+    public Long processReserveSeat(SeatHistoryCrudDto seatHistoryCrudDto, HeaderCollections header){
         return seatHistoryRepository.processReserveSeat(seatHistoryCrudDto.toRecord(header));
     }
     

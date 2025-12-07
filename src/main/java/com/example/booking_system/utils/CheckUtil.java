@@ -10,7 +10,7 @@ public class CheckUtil {
 
     public static void throwUniqueException(Exception e, Map<String, String> duplicateKeyException)
             throws BusinessException {
-        Pattern pattern = Pattern.compile("\"(.*?)\"");
+        Pattern pattern = Pattern.compile("\"(.*?)\""); // matches the double quote for extraction
         Matcher matcher = pattern.matcher(e.getMessage());
         if (matcher.find()) {
             throw new BusinessException(duplicateKeyException.get(matcher.group(1)));

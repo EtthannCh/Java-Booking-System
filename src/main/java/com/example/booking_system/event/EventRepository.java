@@ -1,5 +1,6 @@
 package com.example.booking_system.event;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -20,26 +21,29 @@ public class EventRepository {
 
     public Long createEvent(Event event) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcClient.sql("""
-                insert into events
-                (
-                    name, description, location_id, location_name ,period_start, period_end,
-                    created_at, created_by, created_by_id,
-                    last_updated_at, last_updated_by, last_updated_by_id
-                )
-                values
-                (
-                    :name, :description, :locationId, :locationName ,:periodStart, :periodEnd,
-                    now(), :createdBy, :createdById,
-                    now(), :lastUpdatedBy, :lastUpdatedById
-                )
-                """)
+        jdbcClient
+                .sql("""
+                        insert into events
+                        (
+                            name, description, location_id, location_name ,period_start, period_end, duration, start_time,
+                            created_at, created_by, created_by_id,
+                            last_updated_at, last_updated_by, last_updated_by_id
+                        )
+                        values
+                        (
+                            :name, :description, :locationId, :locationName ,:periodStart, :periodEnd, :duration, :startTime::varchar[],
+                            now(), :createdBy, :createdById,
+                            now(), :lastUpdatedBy, :lastUpdatedById
+                        )
+                        """)
                 .param("name", event.name() != null || !event.name().equals("") ? event.name().toUpperCase() : "")
                 .param("description", event.description())
                 .param("locationId", event.location_id())
                 .param("locationName", event.location_name())
                 .param("periodStart", event.period_start())
                 .param("periodEnd", event.period_end())
+                .param("duration", event.duration())
+                .param("startTime", event.start_time())
                 .param("createdBy", event.created_by())
                 .param("createdById", event.created_by_id())
                 .param("lastUpdatedBy", event.last_updated_by())
@@ -51,11 +55,48 @@ public class EventRepository {
 
     public Optional<EventDto> findEventById(Long eventId) {
         return jdbcClient.sql("""
-                select *
+                select
+                    id,
+                    name,
+                    location_id,
+                    description,
+                    period_start,
+                    period_end,
+                    active,
+                    duration,
+                    array_to_string(start_time, ',') startTime,
+                    created_at,
+                    created_by_id,
+                    created_by,
+                    last_updated_by,
+                    last_updated_by_id,
+                    last_updated_at
                 from events where id = :id
                 """)
                 .param("id", eventId)
                 .query(EventDto.class)
                 .optional();
+    }
+
+    public List<EventDto> findEventList(Long categoryId) {
+        return jdbcClient.sql("""
+                select
+                     id,
+                     name,
+                     location_id,
+                     description,
+                     period_start,
+                     period_end,
+                     active,
+                     duration,
+                     array_to_string(start_time, ',') startTime,
+                     created_at,
+                     created_by_id,
+                     created_by,
+                     last_updated_by,
+                     last_updated_by_id,
+                     last_updated_at
+                 from events
+                 """).query(EventDto.class).list();
     }
 }

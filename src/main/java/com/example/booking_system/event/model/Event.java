@@ -13,6 +13,8 @@ public record Event(
     String description,
     LocalDateTime period_start,
     LocalDateTime period_end,
+    String duration,
+    String[] start_time,
     UUID created_by_id,
     String created_by,
     LocalDateTime created_at,
