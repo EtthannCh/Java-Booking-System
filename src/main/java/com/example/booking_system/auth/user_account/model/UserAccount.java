@@ -11,7 +11,6 @@ public record UserAccount(
         String email,
         String password,
         String full_name,
-        String phone,
         Long role_id,
         LocalDateTime created__at,
         String created_by,

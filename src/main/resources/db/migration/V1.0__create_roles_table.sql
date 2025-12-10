@@ -1,5 +1,5 @@
 create table if not EXISTS roles(
-    id int4 PRIMARY KEY,
+    id serial PRIMARY KEY,
     name VARCHAR(250) not NULL,
     description text,
      created_at TIMESTAMPtz not null,

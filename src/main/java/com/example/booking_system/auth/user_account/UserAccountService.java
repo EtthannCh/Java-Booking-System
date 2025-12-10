@@ -11,9 +11,11 @@ import com.example.booking_system.header.HeaderCollections;
 
 @Service
 public interface UserAccountService {
-    public Long createUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header) throws Exception;
+    public UUID createUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header) throws Exception;
 
     public void updateUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header) throws Exception;
 
     public Optional<UserAccountDto> findByUserId(UUID userId);
+
+    public boolean login(UserAccountCrudDto userAccountCrudDto, HeaderCollections header) throws Exception;
 }

@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.swing.plaf.metal.MetalTheme;
+
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +38,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
-    public Long createUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header)
+    public UUID createUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header)
             throws Exception {
         try {
-            // String pwHashed = BCrypt.hashpw(userAccountCrudDto.getPassword(), BCrypt.gensalt());
-            // userAccountCrudDto.setPassword(pwHashed);
+            String pwHashed = BCrypt.hashpw(userAccountCrudDto.getPassword(), BCrypt.gensalt());
+            userAccountCrudDto.setPassword(pwHashed);
             return userAccountRepository.createAccount(userAccountCrudDto.toRecord(header));
         } catch (DuplicateKeyException e) {
             CheckUtil.throwUniqueException(e, duplicateKeyMap);
@@ -50,8 +53,8 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public void updateUserAccount(UserAccountCrudDto userAccountCrudDto, HeaderCollections header)
             throws Exception {
-        // String hashedPassword = BCrypt.hashpw(userAccountCrudDto.getPassword(), BCrypt.gensalt());
-        // userAccountCrudDto.setPassword(hashedPassword);
+        String hashedPassword = BCrypt.hashpw(userAccountCrudDto.getPassword(), BCrypt.gensalt());
+        userAccountCrudDto.setPassword(hashedPassword);
         checkCredentials(userAccountCrudDto, header);
 
         userAccountRepository.updateAccountPassword(userAccountCrudDto.toRecord(header));
@@ -79,5 +82,14 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public Optional<UserAccountDto> findByUserId(UUID userId) {
         return userAccountRepository.findByUserId(userId);
+    }
+
+    public boolean login(UserAccountCrudDto userAccountCrudDto, HeaderCollections header) throws Exception {
+        UserAccountDto userLogin = userAccountRepository.findByUserId(header.getUserId())
+                .orElseThrow(() -> new BusinessException("AUTH_USERACCOUNT_USERNOTFOUND"));
+        if (!BCrypt.checkpw(userAccountCrudDto.getPassword(), userLogin.getPassword()))
+            return false;
+
+        return true;
     }
 }

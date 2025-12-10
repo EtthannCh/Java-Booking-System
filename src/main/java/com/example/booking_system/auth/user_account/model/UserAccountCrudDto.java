@@ -2,6 +2,7 @@ package com.example.booking_system.auth.user_account.model;
 
 import java.util.UUID;
 
+import com.example.booking_system.auth.role.model.RoleEnum.RoleCodeEnum;
 import com.example.booking_system.header.HeaderCollections;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,11 +17,12 @@ public class UserAccountCrudDto {
     private String email;
     private String password;
     private String fullName;
-    private String phone;
     private Long roleId;
+    private RoleCodeEnum roleCode;
 
     public UserAccount toRecord(HeaderCollections header) {
-        return new UserAccount(null,userId,  email, password, fullName, phone, roleId, null, header.getUserName(),
-                header.getUserId(), null, header.getUserName(), header.getUserId());
+        return new UserAccount(null, header.getUserId(), email, password, fullName, roleId, null,
+                fullName,
+                header.getUserId(), null, fullName, header.getUserId());
     }
 }

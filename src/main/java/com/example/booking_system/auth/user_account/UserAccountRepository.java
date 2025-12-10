@@ -20,33 +20,31 @@ public class UserAccountRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public Long createAccount(UserAccount userAccount) {
+    public UUID createAccount(UserAccount userAccount) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcClient.sql("""
                 insert into users
                 (
                     email, password_hash,
-                    full_name, phone, role_id,
-                    created_by_id, created_by, created_at
+                    name, role_id,
+                    created_at
                 )
                 values
                 (
                     :email, :password,
-                    :fullName, :phone, :roleId,
-                    :createdById, :createdBy, now()
+                    :fullName, :roleId,
+                    now()
                 )
+                returning user_id;
                     """)
                 .param("email", userAccount.email())
-                .param("passwordHash", userAccount.password())
+                .param("password", userAccount.password())
                 .param("fullName", userAccount.full_name())
-                .param("phone", userAccount.phone())
                 .param("roleId", userAccount.role_id())
-                .param("createdById", userAccount.created_by_id())
-                .param("createdBy", userAccount.created_by())
                 .update(keyHolder, "keyholder");
 
-        var id = keyHolder.getKey();
-        return id.longValue();
+        var id = keyHolder.getKeys().get("user_id");
+        return (UUID) id;
     }
 
     public void updateAccountPassword(UserAccount userAccount) throws Exception {
@@ -63,7 +61,6 @@ public class UserAccountRepository {
                 .param("email", userAccount.email())
                 .param("passwordHash", userAccount.password())
                 .param("fullName", userAccount.full_name())
-                .param("phone", userAccount.phone())
                 .param("roleId", userAccount.role_id())
                 .param("lastUpdatedBy", userAccount.last_updated_by())
                 .param("lastUpdatedById", userAccount.last_updated_by_id())
@@ -76,7 +73,7 @@ public class UserAccountRepository {
 
     public Optional<UserAccountDto> findByUserId(UUID userId) {
         return jdbcClient.sql("""
-                    select u.*, r.code roleCode
+                    select u.*, r.code roleCode, u.password_hash password
                     from users u
                     inner join roles r on u.role_id = r.id
                     where user_id = :userId
